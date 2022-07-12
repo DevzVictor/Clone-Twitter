@@ -11,13 +11,13 @@ module.exports = (req, res, next) => {
 
   const parts = authHeader.split(" "); /* ["Beares", "asdoakodkaosk"] */
 
-  if (parts.lenght !== 2) {
+  if (parts.length !== 2) {
     return res.status(401).send({ message: "O token inválido" });
   }
 
   const [scheme, token] = parts;
 
-  if (!/^^Bearer/i.test(scheme)) {
+  if (!/^Bearer$/i.test(scheme)) {
     return res.status(401).send({ message: "O token mal formatado" });
   }
 
