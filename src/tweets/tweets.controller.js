@@ -21,6 +21,32 @@ const createTweetController = async (req, res) => {
   }
 };
 
+const findAllTweetsController = async (req, res) => {
+  try {
+    const tweets = await tweetService.findAllTweetsService();
+
+    if (tweets.length === 0) {
+      return res.status(400).send({ message: "Não existem tweets" });
+    }
+
+    return res.send({
+        results: tweets.map(tweet =>({
+            id: tweet._id,
+            message: tweet.message,
+            likes: tweet.likes.length,
+            comments: tweet.comments.length,
+            retweets: tweet.retweets.length,
+            name: tweet.user.name,
+            username: tweet.user.username,
+            avatar: tweet.user.avatar,
+        }))
+    });
+  } catch (error) {
+    res.status(500).send({ message: error.message });
+  }
+};
+
 module.exports = {
   createTweetController,
+  findAllTweetsController,
 };
